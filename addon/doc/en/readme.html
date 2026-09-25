@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>JAWS-style Eloquence typing</title>
+</head>
+<body>
+<h1>JAWS-style Eloquence typing</h1>
+<p>This add-on makes NVDA's typing, reading, and character-navigation feedback with the Eloquence synthesizer sound more like JAWS. All behavior is runtime-only: the add-on never modifies or saves NVDA's own configuration. Character echo must already be enabled in NVDA's Keyboard settings.</p>
+
+<h2>Why this only touches isolated characters</h2>
+<p>JAWS and NVDA can both drive the same underlying ETI-Eloquence engine, so differences in tone are not a different synthesizer - they come from how each screen reader hands text to it. During ordinary reading (say-all, line reading) with NVDA's Symbol/Punctuation level set to "Some" (matching JAWS's own Punctuation Level setting), terminal punctuation is not converted to a spoken word at all - the raw character passes straight through to Eloquence, which supplies its own native pause and pitch cadence. That already resembles JAWS closely and this add-on does not need to change it.</p>
+<p>Where NVDA and JAWS audibly diverge is <b>isolated character announcements</b>: typed character echo, and arrow-key character navigation. There, NVDA speaks a symbol's name instead of the raw character, and some of NVDA's names differ from JAWS's wording (for example NVDA says "dot" for a period, where JAWS says "period"). This add-on intercepts exactly those isolated announcements.</p>
+
+<h2>What it does</h2>
+<ul>
+<li><b>Capital letters:</b> indicated with a pitch offset (default +20, adjustable in settings) instead of saying "cap" or playing a beep - while typing and while navigating by character.</li>
+<li><b>Question marks (?):</b> sent to Eloquence as "question?" so its native rising question cadence is heard, instead of a flat spoken word.</li>
+<li><b>Periods (.):</b> sent as "period." (JAWS's wording, rather than NVDA's "dot") with Eloquence's native falling/pause cadence.</li>
+<li><b>Exclamation points (!):</b> sent as "exclaim!" (JAWS's wording, rather than NVDA's "bang") with native emphasis.</li>
+<li><b>Commas (,):</b> sent as "comma," with native pause cadence.</li>
+<li><b>Semicolons (;):</b> sent as "semicolon;" (JAWS's wording, rather than NVDA's "semi") with native pause.</li>
+<li><b>Colons (:):</b> sent as "colon:" with native pause cadence.</li>
+</ul>
+<p>Each of the above is applied consistently for typed character echo and for left/right arrow character navigation.</p>
+
+<h2>Settings</h2>
+<p>Open <b>NVDA menu &gt; Preferences &gt; Settings &gt; JAWS Eloquence Typing</b> to turn any of the above on or off individually, and to adjust the capital-letter pitch offset. Only the capital-letter and question-mark behavior has been checked by ear against real JAWS; the period/exclamation/comma/semicolon/colon handling follows the same approach but is newer. If any of them doesn't sound right to you, turn it off in settings - the underlying NVDA behavior for that character is left untouched when disabled.</p>
+
+<h2>For the closest overall match to JAWS</h2>
+<p>This add-on only affects isolated character announcements. For everything else (ordinary reading, overall voice tone):</p>
+<ul>
+<li>Use the same Eloquence voice/variant in NVDA as in JAWS (e.g. "Reed").</li>
+<li>Set NVDA's own Symbol/Punctuation level (Speech settings) to match JAWS's Punctuation Level setting (e.g. "Some").</li>
+<li>Match NVDA's Rate/Pitch/Inflection/Volume sliders to JAWS's if you have customized JAWS's voice profile away from its defaults.</li>
+</ul>
+<p>Restart NVDA after installing or updating this add-on.</p>
+</body>
+</html>
