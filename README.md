@@ -5,7 +5,7 @@ reading and character-navigation feedback with the Eloquence synthesizer
 sound more like JAWS.
 
 * Author: Codex, created for jcoff
-* Version: 2.5.1
+* Version: 2.5.2
 * Compatibility: NVDA 2024.1 through 2026.1
 * Download: grab the `.nvda-addon` file from the
   [releases page](https://github.com/joshknnd1982/jawsEloquenceTyping/releases)
@@ -54,6 +54,12 @@ For the closest overall match to JAWS, use the same Eloquence voice and
 variant in both, and set NVDA's Symbol/Punctuation level to match JAWS's
 Punctuation Level.
 
+## Updates
+
+The add-on checks for updates. Once a day, a little after NVDA starts, the add-on asks its GitHub repository, [github.com/joshknnd1982/jawsEloquenceTyping](https://github.com/joshknnd1982/jawsEloquenceTyping), whether a newer version has been released, and says nothing unless there is one. When there is, a dialog shows what's new in a box you can read line by line, and offers to download and install it. The download must match the release's SHA-256 checksum. Then NVDA asks you to confirm the installation and offers to restart. Your settings are kept.
+
+To check yourself, open the NVDA menu, choose **Tools**, then **Check for add-on updates**, and choose **JAWS-style Eloquence typing...**. Or press **Check for updates now** in the add-on's settings: NVDA menu, Preferences, Settings, **JAWS Eloquence Typing**. You can also assign a gesture to **Checks for JAWS-style Eloquence typing updates** in NVDA's Input Gestures dialog, under **JAWS-style Eloquence typing**. To stop the daily check, clear **Check for JAWS-style Eloquence typing updates automatically** in the same settings panel.
+
 ## Installation
 
 1. Download the latest `jawsEloquenceTyping-x.y.z.nvda-addon` file from the
@@ -69,7 +75,10 @@ Requires Python 3. From the repository root:
 python build.py
 ```
 
-This produces `jawsEloquenceTyping-2.5.1.nvda-addon` in the repository root.
+This produces `jawsEloquenceTyping-2.5.2.nvda-addon` and its `.sha256` checksum
+file in the repository root. Upload both to the GitHub release: the update check
+reads the release's tag, such as `v2.5.2`, and checks the download against the
+checksum.
 
 ## Repository layout
 
@@ -77,7 +86,10 @@ This produces `jawsEloquenceTyping-2.5.1.nvda-addon` in the repository root.
 addon/
   manifest.ini                  Add-on metadata (name, version, NVDA compatibility)
   globalPlugins/
-    jawsEloquenceTyping.py      The global plugin
+    jawsEloquenceTyping/
+      __init__.py               The global plugin
+      updater.py                The GitHub update check, shared by all of
+                                joshknnd1982's add-ons; keep it identical
   doc/
     en/
       readme.html               User documentation bundled with the add-on

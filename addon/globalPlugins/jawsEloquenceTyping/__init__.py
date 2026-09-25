@@ -26,11 +26,14 @@ menu > Preferences > Settings > JAWS Eloquence Typing), since only the
 capital-letter and question-mark handling has been validated by ear against
 real JAWS; the rest follow the same pattern but are new and worth checking.
 This add-on never writes to NVDA's own configuration - only its own settings.
+
+Once a day, updater.py checks GitHub for a newer release of this add-on.
 """
 
 import config
 import globalPluginHandler
 import gui
+import scriptHandler
 import speech
 import synthDriverHandler
 import wx
@@ -39,6 +42,8 @@ from gui.settingsDialogs import SettingsPanel
 from speech.commands import CharacterModeCommand, EndUtteranceCommand, PitchCommand
 from speech.extensions import filter_speechSequence
 import addonHandler
+
+from . import updater
 
 addonHandler.initTranslation()
 
@@ -151,6 +156,8 @@ class JAWSEloquenceTypingSettingsPanel(SettingsPanel):
 			checkBox.SetValue(config.conf["jawsEloquenceTyping"][confKey])
 			self._punctCheckBoxes[confKey] = checkBox
 
+		self.updates = updater.SettingsControls(self, helper)
+
 	def onSave(self):
 		config.conf["jawsEloquenceTyping"]["enableCapitalPitchOffset"] = (
 			self.enableCapitalPitchCheckBox.GetValue()
@@ -160,6 +167,7 @@ class JAWSEloquenceTypingSettingsPanel(SettingsPanel):
 		)
 		for confKey, checkBox in self._punctCheckBoxes.items():
 			config.conf["jawsEloquenceTyping"][confKey] = checkBox.GetValue()
+		self.updates.save()
 
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
@@ -171,8 +179,19 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			JAWSEloquenceTypingSettingsPanel
 		)
 		filter_speechSequence.register(self._filterSpeechSequence)
+		updater.start()
+
+	@scriptHandler.script(
+		# Translators: Description of a command, shown in the Input Gestures dialog.
+		description=_("Checks for JAWS-style Eloquence typing updates"),
+		# Translators: Category of this add-on's commands in the Input Gestures dialog.
+		category=_("JAWS-style Eloquence typing"),
+	)
+	def script_checkForUpdates(self, gesture):
+		updater.checkForUpdates()
 
 	def terminate(self):
+		updater.stop()
 		try:
 			filter_speechSequence.unregister(self._filterSpeechSequence)
 		except (AttributeError, RuntimeError):
