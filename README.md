@@ -95,3 +95,7 @@ addon/
       readme.html               User documentation bundled with the add-on
 build.py                        Builds the .nvda-addon package
 ```
+
+## License
+
+MIT License. See [LICENSE](LICENSE).
